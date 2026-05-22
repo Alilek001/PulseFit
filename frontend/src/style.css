@@ -1,0 +1,70 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+@import "tailwindcss";
+
+@theme {
+  --font-sans: 'Inter', sans-serif;
+  --font-heading: 'Inter', sans-serif;
+
+  /* Clean, soft dark theme (Zinc based) */
+  --color-bg-base: #09090b;
+  --color-bg-surface: #18181b;
+  --color-bg-panel: #27272a;
+  
+  --color-border-subtle: #27272a;
+  --color-border-strong: #3f3f46;
+  
+  --color-text-main: #f4f4f5;
+  --color-text-muted: #a1a1aa;
+  
+  --color-accent: #10b981; /* Soft emerald instead of aggressive neon */
+  --color-accent-hover: #059669;
+
+  /* Custom overrides for the premium design */
+  --color-dark-base: #0f172a;
+  --color-dark-panel: #1e293b;
+  --color-dark-border: #334155;
+  --color-neon: #39ff14;
+}
+
+body {
+  background-color: var(--color-bg-base);
+  color: var(--color-text-main);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  letter-spacing: -0.01em;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-bg-base);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-bg-panel);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-border-strong);
+}
+
+.card {
+  background-color: var(--color-bg-surface);
+  border: 1px solid var(--color-border-subtle);
+  border-radius: 0.75rem;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+}
+
+.input-field {
+  @apply w-full bg-[#18181b] border border-[#27272a] rounded-md px-3 py-2 text-sm text-[#f4f4f5] focus:outline-none focus:border-[#10b981] focus:ring-1 focus:ring-[#10b981] transition-colors placeholder-[#71717a];
+}
+
+.btn-primary {
+  @apply w-full bg-white text-black text-sm font-medium py-2 px-4 rounded-md hover:bg-gray-100 transition-colors shadow-sm;
+}
+
+.btn-secondary {
+  @apply w-full bg-[#27272a] text-white text-sm font-medium py-2 px-4 rounded-md hover:bg-[#3f3f46] transition-colors border border-[#3f3f46];
+}
