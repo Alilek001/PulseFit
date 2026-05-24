@@ -120,7 +120,7 @@
         </form>
 
         <footer class="mt-8 text-center">
-          <p class="text-xs text-on-surface-variant/60 font-mono">© 2024 PulseFit Ecosystem. All rights reserved.</p>
+          <p class="text-xs text-on-surface-variant/60 font-mono">© 2026 PulseFit Ecosystem. All rights reserved.</p>
         </footer>
       </section>
     </main>

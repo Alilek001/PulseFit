@@ -137,7 +137,7 @@
       <!-- Footer -->
       <footer class="bg-surface-container-lowest border-t border-white/5 hidden md:block">
         <div class="flex justify-between items-center px-12 py-6">
-          <p class="text-xs text-on-surface-variant font-mono">© 2024 PulseFit Ecosystem. All rights reserved.</p>
+          <p class="text-xs text-on-surface-variant font-mono">© 2026 PulseFit Ecosystem. All rights reserved.</p>
           <div class="flex gap-6">
             <a class="text-xs text-on-surface-variant hover:text-primary-container transition-colors font-mono" href="#">Privacidad</a>
             <a class="text-xs text-on-surface-variant hover:text-primary-container transition-colors font-mono" href="#">Términos</a>

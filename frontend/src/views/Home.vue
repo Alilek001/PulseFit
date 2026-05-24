@@ -23,7 +23,7 @@
         <div class="max-w-2xl">
           <div class="flex items-center gap-3 mb-6">
             <span class="text-[10px] text-primary-container tracking-widest font-mono uppercase border border-primary-container/30 px-3 py-1 rounded-full bg-primary-container/5">Plataforma de Rendimiento Élite</span>
-            <span class="text-[10px] text-on-surface-variant font-mono uppercase tracking-widest">Establecido 2024</span>
+            <span class="text-[10px] text-on-surface-variant font-mono uppercase tracking-widest">Establecido 2026</span>
           </div>
           <h1 class="text-6xl md:text-8xl font-black text-white tracking-tighter leading-none">
             Redefine<br/>
@@ -184,7 +184,7 @@
       <div class="max-w-[1280px] mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
         <div>
           <span class="text-xl font-black text-primary-container tracking-tighter">PulseFit</span>
-          <p class="text-xs text-on-surface-variant font-mono mt-1">© 2024 PulseFit Ecosystem. All rights reserved.</p>
+          <p class="text-xs text-on-surface-variant font-mono mt-1">© 2026 PulseFit Ecosystem. All rights reserved.</p>
         </div>
         <div class="flex gap-6">
           <a class="text-xs text-on-surface-variant hover:text-primary-container transition-colors font-mono" href="#">Privacidad</a>
