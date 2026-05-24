@@ -2,7 +2,7 @@ import axios from 'axios'
 import { reactive } from 'vue'
 
 // Configuración base de Axios para conectar con Laravel
-axios.defaults.baseURL = 'http://localhost:8000'
+axios.defaults.baseURL = import.meta.env.VITE_API_URL || 'http://localhost:8000'
 axios.defaults.headers.common['Accept'] = 'application/json'
 axios.defaults.headers.common['Content-Type'] = 'application/json'
 // Fundamental para enviar cookies de sesión o encabezados CORS si fuera necesario
