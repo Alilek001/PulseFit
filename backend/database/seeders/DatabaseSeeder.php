@@ -16,9 +16,8 @@ class DatabaseSeeder extends Seeder
         $password = Hash::make('password123');
 
         // Usuario Básico
-        $user = User::create([
+        $user = User::firstOrCreate(['email' => 'user@pulsefit.com'], [
             'name' => 'Adrián García',
-            'email' => 'user@pulsefit.com',
             'password' => $password,
             'role' => 'user',
             'weight' => 75.0,
@@ -27,9 +26,8 @@ class DatabaseSeeder extends Seeder
         ]);
 
         // Usuario Premium
-        $premium = User::create([
+        $premium = User::firstOrCreate(['email' => 'premium@pulsefit.com'], [
             'name' => 'Sofía Martínez',
-            'email' => 'premium@pulsefit.com',
             'password' => $password,
             'role' => 'premium',
             'weight' => 62.5,
@@ -38,9 +36,8 @@ class DatabaseSeeder extends Seeder
         ]);
 
         // Usuario Admin
-        $admin = User::create([
+        $admin = User::firstOrCreate(['email' => 'admin@pulsefit.com'], [
             'name' => 'Carlos López',
-            'email' => 'admin@pulsefit.com',
             'password' => $password,
             'role' => 'admin',
             'weight' => 82.0,
