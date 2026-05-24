@@ -38,7 +38,7 @@
               Empezar tu Aventura
             </router-link>
             <router-link to="/login" class="h-14 px-8 bg-surface-glass backdrop-blur-md text-on-surface font-semibold text-base rounded-lg border border-white/10 hover:border-white/20 flex items-center transition-all">
-              Ver Ecosistema
+              Iniciar Sesión
             </router-link>
           </div>
           <!-- Live stats -->
