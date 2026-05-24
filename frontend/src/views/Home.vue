@@ -88,7 +88,7 @@
     <!-- How it works -->
     <section class="border-t border-white/5 py-24 px-6 md:px-12">
       <div class="max-w-[1280px] mx-auto">
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-16">
           <div>
             <span class="text-xs text-primary-container tracking-widest font-mono uppercase">Cómo funciona</span>
             <h2 class="text-4xl font-black text-white mt-4 tracking-tight leading-tight">Todo lo que necesitas<br/>en un solo lugar</h2>
@@ -123,7 +123,7 @@
               </div>
             </div>
           </div>
-          <div class="glass-card rounded-xl p-8 border border-white/5">
+          <div class="glass-card rounded-xl p-8 border border-white/5 flex flex-col justify-between">
             <h3 class="text-sm font-bold text-white uppercase tracking-wider font-mono mb-6">Niveles de Acceso</h3>
             <div class="space-y-4">
               <div class="p-4 rounded-xl border border-white/10 bg-surface-container">
