@@ -35,10 +35,10 @@
           <div class="flex flex-wrap items-center gap-4 mt-10">
             <router-link to="/register" class="h-14 px-8 bg-primary-container text-on-primary font-bold text-base rounded-lg flex items-center gap-2 neon-glow-btn transition-all active:scale-95">
               <span class="material-symbols-outlined text-[20px]">bolt</span>
-              Empezar tu Aventura
+              Empieza Gratis
             </router-link>
             <router-link to="/login" class="h-14 px-8 bg-surface-glass backdrop-blur-md text-on-surface font-semibold text-base rounded-lg border border-white/10 hover:border-white/20 flex items-center transition-all">
-              Iniciar Sesión
+              Ya soy atleta
             </router-link>
           </div>
           <!-- Live stats -->
