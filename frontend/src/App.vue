@@ -1,50 +1,176 @@
 <template>
-  <div class="min-h-screen bg-dark-base text-white font-sans selection:bg-neon selection:text-dark-base">
-    <!-- Navbar Premium Glassmorphism -->
-    <nav class="fixed top-0 w-full z-50 bg-dark-base/40 backdrop-blur-2xl border-b border-white/5 transition-all duration-300">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex justify-between h-20">
-          <div class="flex items-center">
-            <router-link to="/" class="flex items-center gap-3 group">
-              <div class="w-8 h-8 bg-neon rounded-lg flex items-center justify-center shadow-[0_0_15px_rgba(57,255,20,0.4)] group-hover:shadow-[0_0_25px_rgba(57,255,20,0.6)] transition-all">
-                <svg class="w-5 h-5 text-dark-base" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
-              </div>
-              <span class="font-heading font-black text-xl tracking-tighter text-white group-hover:text-neon transition-colors">PULSE<span class="text-slate-400">FIT</span></span>
-            </router-link>
-          </div>
-          
-          <div class="hidden md:flex items-center gap-8" v-if="isAuthenticated">
-            <router-link to="/dashboard" class="text-sm font-bold text-slate-400 hover:text-neon transition-all" active-class="text-white border-b-2 border-neon py-1">Inicio</router-link>
-            <router-link to="/routines" class="text-sm font-bold text-slate-400 hover:text-neon transition-all" active-class="text-white border-b-2 border-neon py-1">Entrenamientos</router-link>
-            <router-link to="/nutrition" class="text-sm font-bold text-slate-400 hover:text-neon transition-all" active-class="text-white border-b-2 border-neon py-1">Nutrición</router-link>
-            <router-link v-if="isAdmin" to="/admin" class="text-sm font-bold text-amber-500 hover:text-amber-400 transition-all flex items-center gap-1" active-class="text-amber-400 border-b-2 border-amber-400 py-1">
-              <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" /></svg>
-              Admin
-            </router-link>
-            
-            <div class="h-6 w-px bg-dark-border"></div>
-            
-            <router-link to="/profile" class="text-sm font-bold text-slate-400 hover:text-white transition-all">Perfil</router-link>
-            <button @click="logout" class="text-sm font-bold text-slate-400 hover:text-rose-400 transition-all">Salir</button>
-          </div>
-          
-          <div class="flex items-center gap-4" v-else>
-            <router-link to="/login" class="text-sm font-bold text-slate-400 hover:text-white transition-colors">Entrar</router-link>
-            <router-link to="/register" class="text-sm font-bold bg-white text-dark-base px-5 py-2.5 rounded-xl hover:bg-neon transition-all shadow-sm">Registrarse</router-link>
-          </div>
+  <!-- Guest Layout: Login / Register / Home -->
+  <div v-if="!isAuthenticated" class="min-h-screen bg-surface-container-lowest text-on-surface">
+    <router-view />
+  </div>
+
+  <!-- Authenticated Layout: Sidebar + Main -->
+  <div v-else class="flex min-h-screen bg-surface-dim text-on-surface">
+
+    <!-- Sidebar Desktop -->
+    <aside class="fixed left-0 h-screen w-64 bg-surface-container-lowest border-r border-white/5 flex flex-col py-8 z-40 hidden md:flex">
+      <div class="px-6 mb-12">
+        <h1 class="font-extrabold text-2xl text-primary-container tracking-tighter">PulseFit</h1>
+        <p class="text-xs text-on-surface-variant mt-1 tracking-widest uppercase font-mono">Elite Performance</p>
+      </div>
+
+      <nav class="flex-1 flex flex-col space-y-1">
+        <router-link
+          to="/dashboard"
+          class="flex items-center gap-4 py-3 px-6 transition-all duration-200"
+          :class="isActive('/dashboard')
+            ? 'bg-neon-glow text-primary-fixed-dim border-r-4 border-primary-container translate-x-px'
+            : 'text-on-surface-variant hover:bg-surface-variant/50 hover:text-on-surface'"
+        >
+          <span class="material-symbols-outlined text-[22px]">dashboard</span>
+          <span class="text-xs tracking-widest uppercase font-mono font-semibold">Panel</span>
+        </router-link>
+
+        <router-link
+          to="/routines"
+          class="flex items-center gap-4 py-3 px-6 transition-all duration-200"
+          :class="isActive('/routines')
+            ? 'bg-neon-glow text-primary-fixed-dim border-r-4 border-primary-container translate-x-px'
+            : 'text-on-surface-variant hover:bg-surface-variant/50 hover:text-on-surface'"
+        >
+          <span class="material-symbols-outlined text-[22px]">fitness_center</span>
+          <span class="text-xs tracking-widest uppercase font-mono font-semibold">Rutinas</span>
+        </router-link>
+
+        <router-link
+          to="/nutrition"
+          class="flex items-center gap-4 py-3 px-6 transition-all duration-200"
+          :class="isActive('/nutrition')
+            ? 'bg-neon-glow text-primary-fixed-dim border-r-4 border-primary-container translate-x-px'
+            : 'text-on-surface-variant hover:bg-surface-variant/50 hover:text-on-surface'"
+        >
+          <span class="material-symbols-outlined text-[22px]">restaurant</span>
+          <span class="text-xs tracking-widest uppercase font-mono font-semibold">Nutrición</span>
+        </router-link>
+
+        <router-link
+          to="/profile"
+          class="flex items-center gap-4 py-3 px-6 transition-all duration-200"
+          :class="isActive('/profile')
+            ? 'bg-neon-glow text-primary-fixed-dim border-r-4 border-primary-container translate-x-px'
+            : 'text-on-surface-variant hover:bg-surface-variant/50 hover:text-on-surface'"
+        >
+          <span class="material-symbols-outlined text-[22px]">person</span>
+          <span class="text-xs tracking-widest uppercase font-mono font-semibold">Perfil</span>
+        </router-link>
+
+        <router-link
+          v-if="isAdmin"
+          to="/admin"
+          class="flex items-center gap-4 py-3 px-6 transition-all duration-200"
+          :class="isActive('/admin')
+            ? 'bg-neon-glow text-primary-fixed-dim border-r-4 border-primary-container translate-x-px'
+            : 'text-on-surface-variant hover:bg-surface-variant/50 hover:text-on-surface'"
+        >
+          <span class="material-symbols-outlined text-[22px]">admin_panel_settings</span>
+          <span class="text-xs tracking-widest uppercase font-mono font-semibold">Admin</span>
+        </router-link>
+      </nav>
+
+      <div class="px-6 mt-auto">
+        <router-link
+          v-if="!isPremium"
+          to="/register"
+          class="w-full py-3 bg-primary-container text-on-primary font-bold rounded-lg text-sm shadow-[0_0_15px_rgba(57,255,20,0.3)] hover:shadow-[0_0_25px_rgba(57,255,20,0.5)] transition-all mb-6 text-center block"
+        >
+          Actualizar a Élite
+        </router-link>
+        <div class="border-t border-white/5 pt-4 space-y-1">
+          <button
+            @click="logout"
+            class="flex items-center gap-4 text-on-surface-variant py-2 px-0 hover:text-on-surface transition-colors w-full"
+          >
+            <span class="material-symbols-outlined text-[22px]">logout</span>
+            <span class="text-xs tracking-widest uppercase font-mono font-semibold">Cerrar Sesión</span>
+          </button>
         </div>
       </div>
-    </nav>
+    </aside>
 
-    <!-- Main Content -->
-    <main class="min-h-screen pt-20">
-      <router-view></router-view>
-    </main>
+    <!-- Main Content Area -->
+    <div class="flex-1 md:ml-64 flex flex-col min-h-screen">
+
+      <!-- Top Header -->
+      <header class="bg-surface-glass backdrop-blur-md sticky top-0 z-30 border-b border-white/5 h-16 flex items-center justify-between px-4 md:px-12">
+        <div class="flex items-center gap-4">
+          <button class="md:hidden text-primary-container">
+            <span class="material-symbols-outlined">menu</span>
+          </button>
+          <span class="md:hidden font-extrabold text-xl text-primary-container tracking-tighter">PulseFit</span>
+        </div>
+        <div class="flex items-center gap-6">
+          <div class="relative">
+            <button @click="showNotifs = !showNotifs" class="text-on-surface-variant hover:text-primary-fixed-dim transition-colors relative">
+              <span class="material-symbols-outlined">notifications</span>
+              <span v-if="notifications.length" class="absolute top-0 right-0 w-2 h-2 bg-primary-container rounded-full"></span>
+            </button>
+            <div v-if="showNotifs" class="absolute right-0 top-10 w-80 glass-card rounded-xl border border-white/10 shadow-2xl z-50 overflow-hidden">
+              <div class="p-4 border-b border-white/5 flex items-center justify-between">
+                <span class="text-xs font-mono font-bold text-white uppercase tracking-wider">Notificaciones</span>
+                <button @click="notifications = []; showNotifs = false" class="text-[10px] text-on-surface-variant font-mono hover:text-primary-container transition-colors">LIMPIAR</button>
+              </div>
+              <div v-if="notifications.length === 0" class="p-6 text-center text-xs text-on-surface-variant font-mono">Sin notificaciones</div>
+              <div v-else class="divide-y divide-white/5 max-h-64 overflow-y-auto">
+                <div v-for="n in notifications" :key="n.id" class="p-4 hover:bg-surface-container transition-colors">
+                  <p class="text-sm text-white font-semibold">{{ n.title }}</p>
+                  <p class="text-xs text-on-surface-variant mt-0.5">{{ n.body }}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <router-link to="/profile" class="w-9 h-9 rounded-full bg-surface-container-high border border-primary-container/30 flex items-center justify-center font-bold text-sm text-primary-container hover:border-primary-container transition-colors">
+            {{ userInitial }}
+          </router-link>
+        </div>
+      </header>
+
+      <!-- Page Content -->
+      <main class="flex-1 pb-20 md:pb-0">
+        <router-view />
+      </main>
+
+      <!-- Footer -->
+      <footer class="bg-surface-container-lowest border-t border-white/5 hidden md:block">
+        <div class="flex justify-between items-center px-12 py-6">
+          <p class="text-xs text-on-surface-variant font-mono">© 2024 PulseFit Ecosystem. All rights reserved.</p>
+          <div class="flex gap-6">
+            <a class="text-xs text-on-surface-variant hover:text-primary-container transition-colors font-mono" href="#">Privacidad</a>
+            <a class="text-xs text-on-surface-variant hover:text-primary-container transition-colors font-mono" href="#">Términos</a>
+            <a class="text-xs text-on-surface-variant hover:text-primary-container transition-colors font-mono" href="#">Soporte</a>
+          </div>
+        </div>
+      </footer>
+    </div>
+
+    <!-- Mobile Bottom Nav -->
+    <nav class="md:hidden fixed bottom-0 left-0 w-full bg-surface-glass backdrop-blur-md border-t border-white/5 flex justify-around py-3 z-50">
+      <router-link to="/dashboard" class="flex flex-col items-center gap-1" :class="isActive('/dashboard') ? 'text-primary-container' : 'text-on-surface-variant'">
+        <span class="material-symbols-outlined text-[22px]">dashboard</span>
+        <span class="text-[10px] font-mono">Panel</span>
+      </router-link>
+      <router-link to="/routines" class="flex flex-col items-center gap-1" :class="isActive('/routines') ? 'text-primary-container' : 'text-on-surface-variant'">
+        <span class="material-symbols-outlined text-[22px]">fitness_center</span>
+        <span class="text-[10px] font-mono">Rutinas</span>
+      </router-link>
+      <router-link to="/nutrition" class="flex flex-col items-center gap-1" :class="isActive('/nutrition') ? 'text-primary-container' : 'text-on-surface-variant'">
+        <span class="material-symbols-outlined text-[22px]">restaurant</span>
+        <span class="text-[10px] font-mono">Nutrición</span>
+      </router-link>
+      <router-link to="/profile" class="flex flex-col items-center gap-1" :class="isActive('/profile') ? 'text-primary-container' : 'text-on-surface-variant'">
+        <span class="material-symbols-outlined text-[22px]">person</span>
+        <span class="text-[10px] font-mono">Perfil</span>
+      </router-link>
+    </nav>
   </div>
 </template>
 
 <script setup>
-import { ref, onMounted, watch } from 'vue'
+import { ref, computed, onMounted, watch } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import axios from 'axios'
 
@@ -53,47 +179,50 @@ const route = useRoute()
 
 const isAuthenticated = ref(false)
 const isAdmin = ref(false)
+const isPremium = ref(false)
+const userName = ref('')
+const showNotifs = ref(false)
+const notifications = ref([
+  { id: 1, title: 'Rutina generada', body: 'Tu rutina de Pecho está lista para entrenar.' },
+  { id: 2, title: 'Objetivo nutricional', body: 'Llevas el 80% de tus calorías diarias.' },
+])
+
+const userInitial = computed(() => userName.value ? userName.value.charAt(0).toUpperCase() : 'U')
+
+const isActive = (path) => route.path === path
 
 const checkAuth = async () => {
   const token = localStorage.getItem('auth_token')
-  if (token) {
-    try {
-      const res = await axios.get('/api/user', {
-        headers: { Authorization: `Bearer ${token}` }
-      })
-      isAuthenticated.value = true
-      isAdmin.value = res.data.role === 'admin'
-    } catch (e) {
-      isAuthenticated.value = false
-      isAdmin.value = false
-      localStorage.removeItem('auth_token')
-    }
-  } else {
+  if (!token) {
+    isAuthenticated.value = false
+    return
+  }
+  try {
+    const res = await axios.get('/api/user', { headers: { Authorization: `Bearer ${token}` } })
+    isAuthenticated.value = true
+    isAdmin.value = res.data.role === 'admin'
+    isPremium.value = ['premium', 'admin'].includes(res.data.role)
+    userName.value = res.data.name || ''
+  } catch {
     isAuthenticated.value = false
     isAdmin.value = false
+    isPremium.value = false
+    localStorage.removeItem('auth_token')
   }
 }
 
-onMounted(() => {
-  checkAuth()
-})
-
-watch(() => route.path, () => {
-  checkAuth()
-})
+onMounted(checkAuth)
+watch(() => route.path, checkAuth)
 
 const logout = async () => {
   const token = localStorage.getItem('auth_token')
   if (token) {
     try {
-      await axios.post('/api/logout', {}, {
-        headers: { Authorization: `Bearer ${token}` }
-      })
-    } catch (e) {}
+      await axios.post('/api/logout', {}, { headers: { Authorization: `Bearer ${token}` } })
+    } catch {}
   }
   localStorage.removeItem('auth_token')
   isAuthenticated.value = false
-  isAdmin.value = false
   router.push('/login')
 }
 </script>

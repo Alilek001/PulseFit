@@ -24,4 +24,54 @@ class RecipeController extends Controller
 
         return response()->json($recipes);
     }
+
+    public function store(Request $request)
+    {
+        $request->validate([
+            'name'      => 'required|string',
+            'calories'  => 'required|integer|min:0',
+            'proteins'  => 'nullable|integer|min:0',
+            'carbs'     => 'nullable|integer|min:0',
+            'fats'      => 'nullable|integer|min:0',
+            'image_url' => 'nullable|url',
+        ]);
+
+        $recipe = Recipe::create([
+            'name'       => $request->name,
+            'calories'   => $request->calories,
+            'proteins'   => $request->proteins ?? 0,
+            'carbs'      => $request->carbs ?? 0,
+            'fats'       => $request->fats ?? 0,
+            'description'=> $request->description ?? '',
+            'image_url'  => $request->image_url,
+            'is_premium' => false,
+        ]);
+
+        return response()->json($recipe, 201);
+    }
+
+    public function update(Request $request, $id)
+    {
+        $recipe = Recipe::findOrFail($id);
+
+        $request->validate([
+            'name'      => 'required|string',
+            'calories'  => 'required|integer|min:0',
+            'proteins'  => 'nullable|integer|min:0',
+            'carbs'     => 'nullable|integer|min:0',
+            'fats'      => 'nullable|integer|min:0',
+            'image_url' => 'nullable|url',
+        ]);
+
+        $recipe->update([
+            'name'      => $request->name,
+            'calories'  => $request->calories,
+            'proteins'  => $request->proteins ?? 0,
+            'carbs'     => $request->carbs ?? 0,
+            'fats'      => $request->fats ?? 0,
+            'image_url' => $request->image_url,
+        ]);
+
+        return response()->json($recipe);
+    }
 }

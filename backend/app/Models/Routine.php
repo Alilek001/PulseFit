@@ -12,6 +12,8 @@ class Routine extends Model
     protected $fillable = [
         'user_id',
         'name',
+        'tier',
+        'description',
         'training_days',
         'is_premium',
     ];
@@ -23,6 +25,6 @@ class Routine extends Model
 
     public function exercises()
     {
-        return $this->belongsToMany(Exercise::class)->withPivot('sets', 'reps', 'notes')->withTimestamps();
+        return $this->belongsToMany(Exercise::class, 'routine_exercise')->withPivot('sets', 'reps', 'notes')->withTimestamps();
     }
 }

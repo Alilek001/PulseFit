@@ -5,7 +5,8 @@ const routes = [
   {
     path: '/',
     name: 'Home',
-    component: () => import('../views/Home.vue')
+    component: () => import('../views/Home.vue'),
+    meta: { guestOnly: true }
   },
   {
     path: '/login',
@@ -56,7 +57,6 @@ const router = createRouter({
   routes
 })
 
-// Navigation Guard
 router.beforeEach(async (to, from, next) => {
   const token = localStorage.getItem('auth_token')
   let user = null
@@ -64,7 +64,6 @@ router.beforeEach(async (to, from, next) => {
 
   if (token) {
     try {
-      // Very basic state management for this prototype
       const res = await axios.get('/api/user', {
         headers: { Authorization: `Bearer ${token}` }
       })

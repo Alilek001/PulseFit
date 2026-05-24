@@ -1,70 +1,110 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap');
 
 @import "tailwindcss";
 
 @theme {
   --font-sans: 'Inter', sans-serif;
-  --font-heading: 'Inter', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
 
-  /* Clean, soft dark theme (Zinc based) */
-  --color-bg-base: #09090b;
-  --color-bg-surface: #18181b;
-  --color-bg-panel: #27272a;
-  
-  --color-border-subtle: #27272a;
-  --color-border-strong: #3f3f46;
-  
-  --color-text-main: #f4f4f5;
-  --color-text-muted: #a1a1aa;
-  
-  --color-accent: #10b981; /* Soft emerald instead of aggressive neon */
-  --color-accent-hover: #059669;
+  /* Stitch / Kinetic Precision color system */
+  --color-surface-dim: #051424;
+  --color-surface: #051424;
+  --color-background: #051424;
+  --color-surface-container-lowest: #010f1f;
+  --color-surface-container-low: #0d1c2d;
+  --color-surface-container: #122131;
+  --color-surface-container-high: #1c2b3c;
+  --color-surface-container-highest: #273647;
+  --color-surface-variant: #273647;
+  --color-surface-bright: #2c3a4c;
+  --color-deep-slate: #020617;
 
-  /* Custom overrides for the premium design */
-  --color-dark-base: #0f172a;
-  --color-dark-panel: #1e293b;
-  --color-dark-border: #334155;
-  --color-neon: #39ff14;
+  --color-on-surface: #d4e4fa;
+  --color-on-background: #d4e4fa;
+  --color-on-surface-variant: #baccb0;
+  --color-secondary: #bec6e0;
+  --color-secondary-fixed: #dae2fd;
+  --color-secondary-fixed-dim: #bec6e0;
+  --color-secondary-container: #3f465c;
+  --color-on-secondary: #283044;
+  --color-on-secondary-container: #adb4ce;
+  --color-on-secondary-fixed: #131b2e;
+  --color-on-secondary-fixed-variant: #3f465c;
+
+  --color-primary: #efffe3;
+  --color-primary-container: #39ff14;
+  --color-primary-fixed: #79ff5b;
+  --color-primary-fixed-dim: #2ae500;
+  --color-on-primary: #053900;
+  --color-on-primary-container: #107100;
+  --color-on-primary-fixed: #022100;
+  --color-on-primary-fixed-variant: #095300;
+  --color-inverse-primary: #106e00;
+  --color-surface-tint: #2ae500;
+
+  --color-tertiary: #faf9ff;
+  --color-tertiary-fixed: #d8e3fb;
+  --color-tertiary-fixed-dim: #bcc7de;
+  --color-tertiary-container: #d3def6;
+  --color-on-tertiary: #263143;
+  --color-on-tertiary-fixed: #111c2d;
+  --color-on-tertiary-fixed-variant: #3c475a;
+  --color-on-tertiary-container: #576276;
+
+  --color-error: #ffb4ab;
+  --color-error-container: #93000a;
+  --color-on-error: #690005;
+  --color-on-error-container: #ffdad6;
+
+  --color-outline: #85967c;
+  --color-outline-variant: #3c4b35;
+  --color-ghost-white: #F8FAFC;
+  --color-inverse-surface: #d4e4fa;
+  --color-inverse-on-surface: #233143;
+
+  /* Glass / Neon utilities */
+  --color-surface-glass: rgba(30, 41, 59, 0.7);
+  --color-neon-glow: rgba(57, 255, 20, 0.2);
 }
 
 body {
-  background-color: var(--color-bg-base);
-  color: var(--color-text-main);
-  font-family: var(--font-sans);
+  background-color: #051424;
+  color: #d4e4fa;
+  font-family: 'Inter', sans-serif;
   -webkit-font-smoothing: antialiased;
-  letter-spacing: -0.01em;
+  overflow-x: hidden;
 }
 
-/* Scrollbar */
-::-webkit-scrollbar {
-  width: 6px;
-}
-::-webkit-scrollbar-track {
-  background: var(--color-bg-base);
-}
-::-webkit-scrollbar-thumb {
-  background: var(--color-bg-panel);
-  border-radius: 3px;
-}
-::-webkit-scrollbar-thumb:hover {
-  background: var(--color-border-strong);
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: #010f1f; }
+::-webkit-scrollbar-thumb { background: #1c2b3c; border-radius: 10px; }
+::-webkit-scrollbar-thumb:hover { background: #273647; }
+
+.glass-card {
+  background: rgba(30, 41, 59, 0.7);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
-.card {
-  background-color: var(--color-bg-surface);
-  border: 1px solid var(--color-border-subtle);
-  border-radius: 0.75rem;
-  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+.glass-panel {
+  background: rgba(30, 41, 59, 0.7);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
-.input-field {
-  @apply w-full bg-[#18181b] border border-[#27272a] rounded-md px-3 py-2 text-sm text-[#f4f4f5] focus:outline-none focus:border-[#10b981] focus:ring-1 focus:ring-[#10b981] transition-colors placeholder-[#71717a];
+.neon-glow-btn:hover {
+  box-shadow: 0 0 20px rgba(57, 255, 20, 0.4);
 }
 
-.btn-primary {
-  @apply w-full bg-white text-black text-sm font-medium py-2 px-4 rounded-md hover:bg-gray-100 transition-colors shadow-sm;
+.input-focus-ring:focus {
+  border-color: #39ff14;
+  outline: none;
+  box-shadow: 0 0 0 1px rgba(57, 255, 20, 0.2);
 }
 
-.btn-secondary {
-  @apply w-full bg-[#27272a] text-white text-sm font-medium py-2 px-4 rounded-md hover:bg-[#3f3f46] transition-colors border border-[#3f3f46];
+.material-symbols-outlined {
+  font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
 }

@@ -16,6 +16,7 @@ class Recipe extends Model
         'carbs',
         'fats',
         'description',
+        'image_url',
         'is_premium',
     ];
 }
