@@ -75,7 +75,7 @@
       <div class="px-6 mt-auto">
         <router-link
           v-if="!isPremium"
-          to="/register"
+          :to="{ path: '/dashboard', hash: '#upgrade' }"
           class="w-full py-3 bg-primary-container text-on-primary font-bold rounded-lg text-sm shadow-[0_0_15px_rgba(57,255,20,0.3)] hover:shadow-[0_0_25px_rgba(57,255,20,0.5)] transition-all mb-6 text-center block"
         >
           Actualizar a Élite

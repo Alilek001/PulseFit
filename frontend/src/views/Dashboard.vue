@@ -272,7 +272,7 @@
         </div>
 
         <!-- Premium Banner -->
-        <div v-if="user?.role === 'user'" class="glass-card rounded-xl p-6 border border-primary-container/20 relative overflow-hidden">
+        <div v-if="user?.role === 'user'" id="upgrade" class="scroll-mt-24 glass-card rounded-xl p-6 border border-primary-container/20 relative overflow-hidden">
           <div class="absolute top-0 right-0 w-32 h-32 bg-primary-container/10 rounded-full blur-[50px] pointer-events-none"></div>
           <h3 class="font-black text-white mb-2 flex items-center gap-2">
             <span class="material-symbols-outlined text-[18px] text-primary-container">stars</span>

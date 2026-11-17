@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 use App\Models\User;
 use App\Models\Exercise;
 use App\Models\Recipe;
@@ -14,7 +15,10 @@ class DatabaseSeeder extends Seeder
 {
     public function run(): void
     {
+        // Cuentas demo públicas (usuario y premium). La del admin NO es pública:
+        // su contraseña sale de ADMIN_PASSWORD y se reaplica en cada despliegue.
         $password = Hash::make('password123');
+        $adminPassword = config('app.admin_password') ?: Str::random(32);
 
         $user = User::firstOrCreate(['email' => 'user@pulsefit.com'], [
             'name' => 'Adrián García',
@@ -34,14 +38,20 @@ class DatabaseSeeder extends Seeder
             'goal' => 'lose_weight',
         ]);
 
-        User::firstOrCreate(['email' => 'admin@pulsefit.com'], [
+        $admin = User::firstOrCreate(['email' => 'admin@pulsefit.com'], [
             'name' => 'Carlos López',
-            'password' => $password,
+            'password' => Hash::make($adminPassword),
             'role' => 'admin',
             'weight' => 82.0,
             'height' => 180,
             'goal' => 'gain_muscle',
         ]);
+        // Se cambia si aún tiene la contraseña que se publicó o si ADMIN_PASSWORD ha cambiado
+        $leaked = Hash::check('password123', $admin->password);
+        $outdated = config('app.admin_password') && !Hash::check($adminPassword, $admin->password);
+        if ($leaked || $outdated) {
+            $admin->update(['password' => Hash::make($adminPassword)]);
+        }
 
         // Ejercicios
         $exerciseData = [
@@ -108,7 +118,7 @@ class DatabaseSeeder extends Seeder
                 ],
             ],
             [
-                'name' => 'Hipertrofia de Pecho Avanzada', 'tier' => 'basic', 'is_premium' => true,
+                'name' => 'Hipertrofia de Pecho Avanzada', 'tier' => 'elite', 'is_premium' => true,
                 'training_days' => '3', 'description' => null, 'user_id' => null,
                 'exercises' => [
                     ['name' => 'Press de Banca', 'sets' => 4, 'reps' => 10, 'notes' => 'Técnica estricta. Progresión lineal.'],
@@ -116,7 +126,7 @@ class DatabaseSeeder extends Seeder
                 ],
             ],
             [
-                'name' => 'Fuerza y Potencia de Piernas', 'tier' => 'basic', 'is_premium' => true,
+                'name' => 'Fuerza y Potencia de Piernas', 'tier' => 'elite', 'is_premium' => true,
                 'training_days' => '2', 'description' => null, 'user_id' => null,
                 'exercises' => [
                     ['name' => 'Sentadillas', 'sets' => 4, 'reps' => 10, 'notes' => 'Técnica estricta. Progresión lineal.'],
@@ -124,7 +134,7 @@ class DatabaseSeeder extends Seeder
                 ],
             ],
             [
-                'name' => 'Full Body Élite', 'tier' => 'basic', 'is_premium' => true,
+                'name' => 'Full Body Élite', 'tier' => 'elite', 'is_premium' => true,
                 'training_days' => '4', 'description' => null, 'user_id' => null,
                 'exercises' => [
                     ['name' => 'Press de Banca', 'sets' => 4, 'reps' => 10, 'notes' => 'Técnica estricta. Progresión lineal.'],
@@ -135,7 +145,7 @@ class DatabaseSeeder extends Seeder
                 ],
             ],
             [
-                'name' => 'Cardio HIIT Avanzado', 'tier' => 'basic', 'is_premium' => true,
+                'name' => 'Cardio HIIT Avanzado', 'tier' => 'elite', 'is_premium' => true,
                 'training_days' => '3', 'description' => null, 'user_id' => null,
                 'exercises' => [
                     ['name' => 'HIIT en Bicicleta', 'sets' => 4, 'reps' => 10, 'notes' => 'Técnica estricta. Progresión lineal.'],
@@ -144,14 +154,14 @@ class DatabaseSeeder extends Seeder
                 ],
             ],
             [
-                'name' => 'Destruye piernas', 'tier' => 'basic', 'is_premium' => true,
+                'name' => 'Destruye piernas', 'tier' => 'elite', 'is_premium' => true,
                 'training_days' => '1', 'description' => null, 'user_id' => null,
                 'exercises' => [
                     ['name' => 'Prensa de Piernas', 'sets' => 3, 'reps' => 12, 'notes' => 'Piernas colocadas en la parte mas central de la plataforma'],
                 ],
             ],
             [
-                'name' => 'Rutina Élite de Brazos', 'tier' => 'basic', 'is_premium' => true,
+                'name' => 'Rutina Élite de Brazos', 'tier' => 'elite', 'is_premium' => true,
                 'training_days' => '2', 'description' => null, 'user_id' => null,
                 'exercises' => [
                     ['name' => 'Fondos en Paralelas', 'sets' => 3, 'reps' => 12, 'notes' => null],
@@ -159,13 +169,19 @@ class DatabaseSeeder extends Seeder
                 ],
             ],
             [
-                'name' => 'Rutina gitana de piernas', 'tier' => 'elite', 'is_premium' => true,
-                'training_days' => '1', 'description' => 'Rutina destroza piernas', 'user_id' => null,
+                'name' => 'Piernas: prensa pesada', 'tier' => 'elite', 'is_premium' => true,
+                'training_days' => '1', 'description' => 'Sesión corta e intensa centrada en la prensa.', 'user_id' => null,
                 'exercises' => [
                     ['name' => 'Prensa de Piernas', 'sets' => 2, 'reps' => 8, 'notes' => 'Colocación de piernas en la parte central de la plataforma'],
                 ],
             ],
         ];
+
+        // Limpieza de datos antiguos ya desplegados: nombre retirado y niveles mal asignados
+        Routine::whereNull('user_id')->where('name', 'Rutina gitana de piernas')
+            ->update(['name' => 'Piernas: prensa pesada', 'description' => 'Sesión corta e intensa centrada en la prensa.']);
+        Routine::whereNull('user_id')->where('is_premium', true)->where('tier', 'basic')
+            ->update(['tier' => 'elite']);
 
         foreach ($routines as $routineData) {
             $exList = $routineData['exercises'];

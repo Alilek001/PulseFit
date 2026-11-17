@@ -1275,9 +1275,10 @@ Las migraciones se encuentran en `backend/database/migrations/` e incluyen:
 
 | Rol | Email | Contraseña |
 |---|---|---|
-| Administrador | admin@pulsefit.com | password123 |
 | Usuario Élite | premium@pulsefit.com | password123 |
 | Usuario Básico | user@pulsefit.com | password123 |
+
+La cuenta de administrador no se publica: su contraseña se define en el servidor con la variable `ADMIN_PASSWORD`.
 
 ### Flujo básico de uso
 

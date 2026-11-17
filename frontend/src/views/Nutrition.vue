@@ -141,7 +141,7 @@
                   <span class="material-symbols-outlined text-[16px]">add</span>
                   REGISTRAR
                 </button>
-                <button @click="openEditRecipe(recipe)"
+                <button v-if="recipe.can_edit" @click="openEditRecipe(recipe)" aria-label="Editar receta"
                   class="px-4 py-3 bg-surface-container-high border border-white/10 rounded-lg text-xs font-mono hover:bg-surface-container-highest transition-all flex items-center justify-center">
                   <span class="material-symbols-outlined text-[16px]">edit</span>
                 </button>

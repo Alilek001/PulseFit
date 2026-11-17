@@ -108,8 +108,9 @@ class RoutineController extends Controller
                 ]);
             }
             return response()->json($routine->load('exercises'));
-        } catch (\Exception $e) {
-            return response()->json(['message' => 'Error interno.', 'error' => $e->getMessage()], 500);
+        } catch (\Throwable $e) {
+            report($e);
+            return response()->json(['message' => 'No se pudo generar la rutina.'], 500);
         }
     }
 
@@ -129,6 +130,17 @@ class RoutineController extends Controller
             'routine_id'  => 'required|exists:routines,id',
             'day_of_week' => 'required|integer|min:0|max:6',
         ]);
+
+        $user = $request->user();
+        $routine = Routine::findOrFail($request->routine_id);
+        $isPremium = in_array($user->role, ['premium', 'admin']);
+
+        // Solo rutinas globales de su nivel o rutinas propias
+        $isOwn = (int) $routine->user_id === (int) $user->id;
+        $isAllowedGlobal = $routine->user_id === null && ($routine->tier === 'basic' || $isPremium);
+        if (!$isOwn && !$isAllowedGlobal) {
+            return response()->json(['message' => 'Esta rutina no está disponible en tu plan.'], 403);
+        }
 
         $item = WeeklyPlanItem::updateOrCreate(
             ['user_id' => $request->user()->id, 'day_of_week' => $request->day_of_week],
